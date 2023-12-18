@@ -6,9 +6,14 @@ replicaCount: 1
 
 image:
   repository: vadimmns
-  tag: "v1.0.2-0cd83e2-arm64"
+  tag: "v1-8f48d32-"
+  os: linux
+  arch: amd64
 
 secret:
   name: kbot
   env: TELE_TOKEN
   key: token
+
+securityContext:
+  privileged: true  
