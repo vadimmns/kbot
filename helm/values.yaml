@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: "vadimmns/kbot"
+  repository: "vadimmns"
   tag: "v1-464c2a6-amd64"
   os: linux
   arch: amd64
