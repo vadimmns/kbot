@@ -1,8 +1,8 @@
-REGISTRY=ghcr/vadimmns
+APP := $(shell basename $(shell git remote get-url origin))
+REGISTRY=ghcr.io/vadimmns
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-#linux darwin windows
-TARGETOS=linux
-TARGETARCH=amd64
+TARGETOS=linux #linux darwin windows
+TARGETARCH=amd64 #amd64 arm64
 
 format:
 	gofmt -s -w ./
