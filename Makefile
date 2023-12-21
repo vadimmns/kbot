@@ -1,4 +1,4 @@
-REGISTRY := vadimmns
+REGISTRY=ghcr/vadimmns
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 #linux darwin windows
 TARGETOS=linux
