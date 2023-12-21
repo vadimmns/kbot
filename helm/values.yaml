@@ -5,6 +5,7 @@
 replicaCount: 1
 
 image:
+  registry: "ghcr.io"
   repository: "vadimmns/kbot"
   tag: "v1-464c2a6-amd64"
   os: linux
