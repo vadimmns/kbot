@@ -1,8 +1,10 @@
-APP := $(shell basename $(shell git remote get-url origin))
-REGISTRY=ghcr.io/vadimmns
-VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS=linux #linux darwin windows
-TARGETARCH=amd64 #amd64 arm64
+APP:=$(shell basename -s .git $(shell git remote get-url origin))
+REGISTRY=ghcr.io
+REPOSITORY=vadimmns
+VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short develop)
+
+TARGETOS=linux
+TARGETARCH=amd64
 
 format:
 	gofmt -s -w ./
@@ -13,18 +15,18 @@ lint:
 test:
 	go test -v
 
-get:
+get-dependencies:
 	go get
 
-build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/den-vasyliev/kbot/cmd.appVersion=${VERSION}
+build: format get-dependencies
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/bicyclecat/kbot/cmd.appVersion=${VERSION}
 
 image:
-	docker build . -t ${REGISTRY}:${VERSION}-${TARGETOS}-${TARGETARCH}  --build-arg TARGETARCH=${TARGETARCH} --build-arg TARGETOS=${TARGETOS}
+	docker build . -t ${REGISTRY}/${REPOSITORY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH} --build-arg TARGETOS=${TARGETOS} --build-arg TARGETARCH=${TARGETARCH}
 
 push:
-	docker push ${REGISTRY}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker push ${REGISTRY}/${REPOSITORY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:
 	rm -rf kbot
-	docker rmi ${REGISTRY}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker rmi ${REGISTRY}/${REPOSITORY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
